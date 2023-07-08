@@ -29,4 +29,17 @@ pub fn get_urls(handle: Handle) -> Vec<String> {
             }
         }
     }
+
+    urls
+}
+
+fn get_elements_by_name(handle: Handle, element_name: &str, out: &mut Vec<NodeData>) {
+    let node = handle;
+
+    if let NodeData::Element {
+        ref name,
+        ref attrs,
+        ref template_contents,
+        ..
+    } = node.data
 }
