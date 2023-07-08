@@ -42,4 +42,14 @@ fn get_elements_by_name(handle: Handle, element_name: &str, out: &mut Vec<NodeDa
         ref template_contents,
         ..
     } = node.data
+    {
+        if &*(name.local) = element_name {
+            out.push(NodeData::Element {
+                name: name.clone(),
+                attrs: attrs.clone(),
+                template_contents: template_contents.clone(),
+                mathml_annotation_xml_integration_point: false,
+            });
+        }
+    }
 }
