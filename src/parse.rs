@@ -16,6 +16,8 @@ pub fn get_urls(handle: Handle) -> Vec<String> {
     let mut urls = vec![];
     let mut anchor_tags = vec![];
 
+    get_elements_by_name(handle, "a", &mut anchor_tags);
+
     for node in anchor_tags { 
         if let NodeData::Element { ref attrs, ..} = node {
             for attr in attrs.borrow().iter(){
@@ -52,4 +54,7 @@ fn get_elements_by_name(handle: Handle, element_name: &str, out: &mut Vec<NodeDa
             });
         }
     }
+    for n in node.children.borrow().iter() {
+        get_elements_by_name(n.clone(), element_name, out);
+    } 
 }
