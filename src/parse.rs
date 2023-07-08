@@ -15,4 +15,18 @@ pub fn parse_html(source: &str) -> RcDom {
 pub fn get_urls(handle: Handle) -> Vec<String> {
     let mut urls = vec![];
     let mut anchor_tags = vec![];
+
+    for node in anchor_tags { 
+        if let NodeData::Element { ref attrs, ..} = node {
+            for attr in attrs.borrow().iter(){
+                let Attribute {
+                    ref name,
+                    ref value,
+                } = *attr;
+                if &*(name.local) == "href" {
+                    urls.push(value.to_string());
+                }
+            }
+        }
+    }
 }
