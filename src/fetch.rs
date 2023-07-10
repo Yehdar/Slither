@@ -10,3 +10,14 @@ use std::fmt;
 use self::hyper::Client;
 use self::hyper::status::StatusCode;
 use self::url::{ParseResult, Url, UrlParser};
+
+use parsing;
+
+#[derive(Debug, Clone)]
+pub enum UrlState {
+    Accessible(Url),
+    BadStatus(Url, StatusCode),
+    ConnectionFailed(Url),
+    TimedOut(Url),
+    Malformed(String),
+}
