@@ -22,7 +22,7 @@ pub enum UrlState {
     Malformed(String),
 }
 
-impl fmt::Display for UrlStat {
+impl fmt::Display for UrlState {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             UrlState::Accessible(ref url) => format!("!! {}", url).fmt(f),
@@ -32,4 +32,14 @@ impl fmt::Display for UrlStat {
             UrlState::Malformed(ref url) => format!("x {} (malformed)", url).fmt(f),
         }
     }
+}
+
+fn build_url(domain: &str, path: &str) -> ParseResult<Url> {
+    let base_url_string = format!("http://{}", domain);
+    let base_url = Url::parse(&base_url_string).unwrap();
+
+    let mut raw_url_parser = UrlParser::new();
+    let url_parser = raw_url_parser.base_url(&base_url);
+
+    url_parser.parse(path)
 }
