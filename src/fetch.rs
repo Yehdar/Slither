@@ -21,3 +21,15 @@ pub enum UrlState {
     TimedOut(Url),
     Malformed(String),
 }
+
+impl fmt::Display for UrlStat {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            UrlState::Accessible(ref url) => format!("!! {}", url).fmt(f),
+            UrlState::BadStatus(ref url, ref status) => format!("x {} ({})", url, status).fmt(f),
+            UrlState::ConnectionFailed(ref url) => format!("x {} (connection failed)", url).fmt(f),
+            UrlState::TimedOut(ref url) => format!("x {} (timed out)", url).fmt(f),
+            UrlState::Malformed(ref url) => format!("x {} (malformed)", url).fmt(f),
+        }
+    }
+}
