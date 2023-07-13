@@ -13,6 +13,8 @@ use self::url::{ParseResult, Url, UrlParser};
 
 use parsing;
 
+const TIMEOUT: u64 = 10;
+
 #[derive(Debug, Clone)]
 pub enum UrlState {
     Accessible(Url),
@@ -50,6 +52,12 @@ pub fn url_status(domain: &str, path: &str) -> UrlState {
             let (tx, rx) = channel();
             let req_tx = tx.clone();
             let u = url.clone();
+
+            thread::spawn(move || {
+                let client = Client::new();
+                let url_string = url.serialize();
+                let resp = client.get(&url_string).send();
+            });
         }
     }
 }
