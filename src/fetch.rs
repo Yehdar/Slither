@@ -43,3 +43,13 @@ fn build_url(domain: &str, path: &str) -> ParseResult<Url> {
 
     url_parser.parse(path)
 }
+
+pub fn url_status(domain: &str, path: &str) -> UrlState {
+    match build_url(domain, path) {
+    Ok(url) => {
+            let (tx, rx) = channel();
+            let req_tx = tx.clone();
+            let u = url.clone();
+        }
+    }
+}
