@@ -65,8 +65,14 @@ pub fn url_status(domain: &str, path: &str) -> UrlState {
                         UrlState::BadStatus(url, r.status)
                     },
                     Err(_) => UrlState::ConnectionFailed(url),
-                })
+                });
             });
+            thread::spawn(move || {
+                thread::sleep(Duration::from_secs(TIMEOUT));
+                let _ = tx.send(UrlState::TimedOut(u));
+            });
+            rx.recv().unwrap()
         }
+        Err(_) => UrlState::Malformed(path.to_owned()),
     }
 }
