@@ -57,6 +57,15 @@ pub fn url_status(domain: &str, path: &str) -> UrlState {
                 let client = Client::new();
                 let url_string = url.serialize();
                 let resp = client.get(&url_string).send();
+
+                let _ = req_tx.send(match resp {
+                    Ok(r) => if let StatusCode::Ok = r.status {
+                        UrlState::Accessible(url)
+                    } else {
+                        UrlState::BadStatus(url, r.status)
+                    },
+                    Err(_) => UrlState::ConnectionFailed(url),
+                })
             });
         }
     }
