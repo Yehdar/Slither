@@ -81,4 +81,9 @@ pub fn fetch_url(url: &Url) -> String {
     let client = Client::new();
 
     let url_String = url.serialize();
+    let mut res = client
+        .get(&url.string)
+        .send()
+        .ok()
+        .expect("could not fetch URL");
 }
