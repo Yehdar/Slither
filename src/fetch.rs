@@ -76,3 +76,9 @@ pub fn url_status(domain: &str, path: &str) -> UrlState {
         Err(_) => UrlState::Malformed(path.to_owned()),
     }
 }
+
+pub fn fetch_url(url: &Url) -> String {
+    let client = Client::new();
+
+    let url_String = url.serialize();
+}
