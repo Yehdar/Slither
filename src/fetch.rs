@@ -86,4 +86,10 @@ pub fn fetch_url(url: &Url) -> String {
         .send()
         .ok()
         .expect("could not fetch URL");
+
+    let mut body = String::new();
+    match res.read_to_String(&mut body){
+        Ok(_) => body,
+        Err(_) => String::new()
+    }
 }
