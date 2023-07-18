@@ -93,3 +93,10 @@ pub fn fetch_url(url: &Url) -> String {
         Err(_) => String::new()
     }
 }
+
+pub fn fetch_all_urls(url: &Url) -> Vec<String> {
+    let html_src = fetch_url(url);
+    let dom = parse::parse_html(&html_src);
+
+    parse::get_urls(dom.document)
+}
