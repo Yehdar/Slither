@@ -11,3 +11,13 @@ pub struct Crawler {
     active_count: Arc<Mutex<i32>>,
     url_states: Receiver<UrlState>,
 }
+
+impl Iterator for Crawler {
+    type Item = UrlState;
+
+    fn next(&mut self) -> Option<UrlState> {
+        loop {
+            match self.url_states.try_recv(){}
+        }
+    }
+}
