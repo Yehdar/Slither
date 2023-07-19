@@ -17,7 +17,19 @@ impl Iterator for Crawler {
 
     fn next(&mut self) -> Option<UrlState> {
         loop {
-            match self.url_states.try_recv(){}
+            match self.url_states.try_recv(){
+                Ok(state) => return Some(state),
+                Err(_) => {
+                    let to_visit_val = self.to_visit.lock().unwrap();
+                    let active_count_val = self.active_count.lock().unwrap();
+
+                    if to_visit_val.is_empty() && *active_count_val == 0 {
+                        return None;
+                    } else {
+                        continue;
+                    }
+                }
+            }
         }
     }
 }
