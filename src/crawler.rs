@@ -42,4 +42,21 @@ fn crawl_worker_thread(
     visited: Arc<Muted<HashSet<String>>>,
     active_count: Arc<Mutex<i32>>,
     url_states: Sender<UrlState>,
-) {}
+) {
+    loop { 
+        let current;
+        {
+            let mut to_visit_val = to_visit.lock().unwrap();
+            let mut active_count_val = active_count.lock().unwrap();
+            if to_visit_val.is_empty(){
+                if *active_count_val > 0 {
+                    continue;
+                } else {
+                    break;
+                }
+            };
+            current = to_visit_val.pop().unwrap();
+            *active_count_val += 1;
+        }
+    }
+}
