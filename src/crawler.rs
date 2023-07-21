@@ -58,6 +58,7 @@ fn crawl_worker_thread(
             current = to_visit_val.pop().unwrap();
             *active_count_val += 1;
             assert!(*active_count_val <= THREADS);
+<<<<<<< HEAD
         }
 
         {
@@ -69,6 +70,8 @@ fn crawl_worker_thread(
             } else {
                 visited_val.insert(current.to_owned());
             }
+=======
+>>>>>>> 00c8e8d789327e4b80d0fb0756936c44aa1c75b4
         }
     }
 }
