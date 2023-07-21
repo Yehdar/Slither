@@ -57,6 +57,18 @@ fn crawl_worker_thread(
             };
             current = to_visit_val.pop().unwrap();
             *active_count_val += 1;
+            assert!(*active_count_val <= THREADS);
+        }
+
+        {
+            let mut visited_val = visited.lock().unwrap();
+            if visited_val.contains(&current) {
+                let mut active_count_val = active_count.lock().unwrap();
+                *active_count_val -= 1;
+                continue;
+            } else {
+                visited_val.insert(current.to_owned());
+            }
         }
     }
 }
