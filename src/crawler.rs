@@ -57,6 +57,7 @@ fn crawl_worker_thread(
             };
             current = to_visit_val.pop().unwrap();
             *active_count_val += 1;
+            assert!(*active_count_val <= THREADS);
         }
     }
 }
