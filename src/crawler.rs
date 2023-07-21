@@ -6,6 +6,8 @@ use url::Url;
 
 use fetching::{fetch_all_urls, url_status, UrlState};
 
+const THREADS: i32 = 20;
+
 pub struct Crawler {
     to_visit: Arc<Mutex<Vec<String>>>,
     active_count: Arc<Mutex<i32>>,
@@ -33,3 +35,11 @@ impl Iterator for Crawler {
         }
     }
 }
+
+fn crawl_worker_thread(
+    doman: &str,
+    to_visit: Arc<Mutex<Vec<String>>>,
+    visited: Arc<Muted<HashSet<String>>>,
+    active_count: Arc<Mutex<i32>>,
+    url_states: Sender<UrlState>,
+) {}
