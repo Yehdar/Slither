@@ -36,5 +36,7 @@ fn main() {
             print!("Succeeded: {} Failed: {}\r", success_counter, fail_counter);
             stdout().flush().unwrap();
         }
+    } else {
+        println!("Please provide a URL.");
     }
 }
