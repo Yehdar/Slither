@@ -80,7 +80,7 @@ fn crawl_worker_thread(domain: &str, to_visit: Arc<Mutex<Vec<String>>>, visited:
         {
             let mut active_count_val = active_count.lock().unwrap();
             *active_count_val -= 1;
-            assert!(active_count_val >= 0);
+            assert!(*active_count_val >= 0);
         }
 
         url_states.send(state).unwrap();
