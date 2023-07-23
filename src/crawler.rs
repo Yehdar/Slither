@@ -82,5 +82,13 @@ fn crawl_worker_thread(
                 }
             }
         }
+
+        {
+            let mut active_count_val = active_count.lock().unwrap();
+            *active_count_val -= 1;
+            assert!(active_count_val >= 0);
+        }
+
+        url_states.send(state).unwrap();
     }
 }
