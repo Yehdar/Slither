@@ -92,3 +92,11 @@ fn crawl_worker_thread(
         url_states.send(state).unwrap();
     }
 }
+
+pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
+    let to_visit = Arc::new(Mutex::new(vec![start_url.serialize()]));
+    let active_count = Arc::new(Mutex::new(0));
+    let visited = Arc::new(Mutex::new(0));
+    
+    let (tx, rx) = channel();
+}
