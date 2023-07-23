@@ -110,4 +110,5 @@ pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
         thread::spawn(move || {crawl_worker_thread(&domain, to_visit, visited, active_count, tx);
         });
     }
+    crawler
 }
