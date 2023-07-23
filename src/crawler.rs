@@ -99,4 +99,10 @@ pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
     let visited = Arc::new(Mutex::new(0));
     
     let (tx, rx) = channel();
+
+    let crawler = Crawler {
+        to_visit: to_visit.clone(),
+        active_count: active_count.clone(),
+        url_states: rx,
+    };
 }
