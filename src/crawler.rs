@@ -4,7 +4,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::thread;
 use url::Url;
 
-use fetching::{fetch_all_urls, url_status, UrlState};
+use fetch::{fetch_all_urls, url_status, UrlState};
 
 const THREADS: i32 = 20;
 
@@ -104,7 +104,7 @@ pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
         let domain = domain.to_owned();
         let to_visit = to_visit.clone();
         let visited = visited.clone();
-        let active_count = active_count.clone()
+        let active_count = active_count.clone();
         let tx = tx.clone();
 
         thread::spawn(move || {crawl_worker_thread(&domain, to_visit, visited, active_count, tx);
