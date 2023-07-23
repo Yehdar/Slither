@@ -4,7 +4,7 @@ use std::sync::mpsc::{channel, Receiver, Sender};
 use std::thread;
 use url::Url;
 
-use fetch::{fetch_all_urls, url_status, UrlState};
+use crate::fetch::{fetch_all_urls, url_status, UrlState};
 
 const THREADS: i32 = 20;
 
@@ -36,7 +36,7 @@ impl Iterator for Crawler {
     }
 }
 
-fn crawl_worker_thread(domain: &str, to_visit: Arc<Mutex<Vec<String>>>, visited: Arc<Muted<HashSet<String>>>, active_count: Arc<Mutex<i32>>, url_states: Sender<UrlState>) {
+fn crawl_worker_thread(domain: &str, to_visit: Arc<Mutex<Vec<String>>>, visited: Arc<Mutex<HashSet<String>>>, active_count: Arc<Mutex<i32>>, url_states: Sender<UrlState>) {
     loop { 
         let current;
         {
@@ -90,7 +90,7 @@ fn crawl_worker_thread(domain: &str, to_visit: Arc<Mutex<Vec<String>>>, visited:
 pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
     let to_visit = Arc::new(Mutex::new(vec![start_url.serialize()]));
     let active_count = Arc::new(Mutex::new(0));
-    let visited = Arc::new(Mutex::new(0));
+    let visited = Arc::new(Mutex::new(HashSet::new()));
     
     let (tx, rx) = channel();
 

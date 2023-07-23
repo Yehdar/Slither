@@ -11,7 +11,7 @@ use self::hyper::Client;
 use self::hyper::status::StatusCode;
 use self::url::{ParseResult, Url, UrlParser};
 
-use parsing;
+use crate::parse;
 
 const TIMEOUT: u64 = 10;
 
