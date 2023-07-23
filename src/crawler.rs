@@ -36,13 +36,7 @@ impl Iterator for Crawler {
     }
 }
 
-fn crawl_worker_thread(
-    doman: &str,
-    to_visit: Arc<Mutex<Vec<String>>>,
-    visited: Arc<Muted<HashSet<String>>>,
-    active_count: Arc<Mutex<i32>>,
-    url_states: Sender<UrlState>,
-) {
+fn crawl_worker_thread(domain: &str, to_visit: Arc<Mutex<Vec<String>>>, visited: Arc<Muted<HashSet<String>>>, active_count: Arc<Mutex<i32>>, url_states: Sender<UrlState>) {
     loop { 
         let current;
         {
@@ -105,4 +99,15 @@ pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
         active_count: active_count.clone(),
         url_states: rx,
     };
+
+    for _ in 0..THREADS {
+        let domain = domain.clone();
+        let to_visit = to_visit.clone();
+        let visited = visited.clone();
+        let active_count = active_count.clone()
+        let tx = tx.clone();
+
+        thread::spawn(move || {crawl_worker_thread(&domain, to_visit, visited, active_count, tx);
+        });
+    }
 }
