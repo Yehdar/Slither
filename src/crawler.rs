@@ -101,7 +101,7 @@ pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
     };
 
     for _ in 0..THREADS {
-        let domain = domain.clone();
+        let domain = domain.to_owned();
         let to_visit = to_visit.clone();
         let visited = visited.clone();
         let active_count = active_count.clone()
