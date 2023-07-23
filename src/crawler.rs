@@ -70,5 +70,17 @@ fn crawl_worker_thread(
                 visited_val.insert(current.to_owned());
             }
         }
+
+        let state = url_status(&domain, &current);
+        if let UrlState::Accessible(ref url) = state.clone(){
+            if url.domain() == Some(&domain){
+                let new_urls = fetch_all_urls(&url);
+
+                let mut to_visit_val = to_visit.lock().unwrap();
+                for new_url in new_urls {
+                    to_visit_val.push(new_url);
+                }
+            }
+        }
     }
 }
